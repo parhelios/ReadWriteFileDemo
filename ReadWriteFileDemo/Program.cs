@@ -21,7 +21,7 @@ if (!File.Exists(path))
 
 if (File.Exists(path))
 {
-    string? line = "";
+    string? line;
     //StreamReader används för att öppna en fil och läsa från den.
     //nyckelordet using används här för att på ett säkert sätt stänga den öppnade filen så den inte är låst efter operationen
     using StreamReader sr = new StreamReader(path);
