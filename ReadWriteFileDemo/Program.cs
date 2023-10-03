@@ -174,19 +174,88 @@ if (!Directory.Exists(folderName))
     Directory.CreateDirectory(folderName);
 }
 
+
+
 foreach (var movie in movieDb.Movies)
 {
     for (int i = 0; i < Enum.GetValues(typeof(Genres)).Length; i++)
     {
         if (movie.Genres.Contains((Genres)i))
         {
-            appDataPath = Path.Combine(@"C:\Users\Tobias\Desktop\TempMapp", $"{(Genres)i}.txt");
-            using StreamWriter sw2 = new StreamWriter(appDataPath);
+            appDataPath = Path.Combine(folderName, $"{(Genres)i}.txt");
+            using var sw2 = new StreamWriter(appDataPath);
 
-            //sw2.WriteLine(((Genres)i));
+            sw2.WriteLine(((Genres)i));
         }
     }
 }
 
-var hereditary = new Movie();
-hereditary.Title= "Hereditary";
+for (int i = 0; i < Enum.GetValues(typeof(Genres)).Length; i++)
+{
+    appDataPath = Path.Combine(folderName, $"{(Genres)i}.txt");
+    using var sr2 = new StreamReader(appDataPath);
+
+    if (File.Exists(appDataPath))
+    {
+        string line;
+
+        while ((line = sr2.ReadLine()) != null)
+        {
+            Console.WriteLine(line);
+        }
+    }
+}
+
+
+var hereditary = new Movie("Hereditary", 2.1, "A grieving family is haunted by tragic and disturbing occurrences.", new List<Genres>()
+    {
+        Genres.Horror
+    });
+
+
+var lighthouse = new Movie("The Lighthouse", 1.82, "Two lighthouse keepers try to maintain their sanity while living on a remote and mysterious New England island in the 1890s.", new List<Genres>()
+    {
+        Genres.Horror,
+        Genres.Thriller
+    });
+
+var blackCatWhiteCat = new Movie("Black Cat, White Cat", 2.1, "Matko and his son Zare live on the banks of the Danube river and get by through hustling and basically doing anything to make a living. In order to pay off a business debt Matko agrees to marry off Zare to the sister of a local gangster.", new List<Genres>()
+    {
+        Genres.Comedy
+    });
+
+movieDb.Movies.Add(hereditary);
+movieDb.Movies.Add(lighthouse);
+movieDb.Movies.Add(blackCatWhiteCat);
+
+
+for (int i = 0; i < Enum.GetValues(typeof(Genres)).Length; i++)
+{
+    appDataPath = Path.Combine(folderName, $"{(Genres)i}.txt");
+
+    using var sw2 = new StreamWriter(appDataPath);
+    foreach (var movie in movieDb.Movies)
+    {
+        if (movie.Genres.Contains((Genres)i))
+        {
+            sw2.WriteLine(movie.ToString() + "\n");
+        }
+    }
+
+
+}
+
+
+//foreach (var movie in movieDb.Movies)
+//{
+//    for (int i = 0; i < Enum.GetValues(typeof(Genres)).Length; i++)
+//    {
+//        if (movie.Genres.Contains((Genres)i))
+//        {
+//            appDataPath = Path.Combine(folderName, $"{(Genres)i}.txt");
+//            using var sw2 = new StreamWriter(appDataPath);
+
+//            sw2.WriteLine(movie.ToString() + "\n");
+//        }
+//    }
+//}
